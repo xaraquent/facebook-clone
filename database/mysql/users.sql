@@ -4,7 +4,6 @@ CREATE TABLE Users (
     user_password VARCHAR(255) NOT NULL,
     user_email VARCHAR(255) NOT NULL,
     user_status BOOLEAN(false),
-    -- user_friends int,
     user_group_id int,
     user_created_date TIMESTAMP DEFAULT,
     PRIMARY KEY (user_id),
