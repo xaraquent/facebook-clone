@@ -1,6 +1,6 @@
 CREATE TABLE Comments(
-    comment_id int AUTO_INCREMENT PRIMARY KEY,
-    comment_post_id int,
+    comment_id INT AUTO_INCREMENT NOT NULL,
+    comment_post_id INT,
     comment_reaction VARCHAR(255),
     comment_content VARCHAR(255),
     PRIMARY KEY (comment_id),

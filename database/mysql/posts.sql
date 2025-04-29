@@ -1,6 +1,6 @@
 CREATE TABLE Posts(
-    post_id int AUTO_INCREMENT PRIMARY KEY,
-    post_user_id int,
+    post_id INT AUTO_INCREMENT NOT NULL,
+    post_user_id INT,
     post_reaction VARCHAR(255),
     post_content VARCHAR(1000),
     PRIMARY KEY (post_id),
