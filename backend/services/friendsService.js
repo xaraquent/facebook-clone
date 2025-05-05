@@ -13,7 +13,7 @@ function getFriends() {
 function friendsAndUsers() {
   return new Promise((resolve, reject) => {
     let sql = `
-    Users.user_name, Friends.friend_name
+    SELECT Users.user_name, Friends.friend_name
     FROM Friend_list
     INNER JOIN Users ON Friend_list.friend_user_ID = Users.user_ID
     INNER JOIN Friends On Friend_list.friend_friend_ID = Friends.friend_ID

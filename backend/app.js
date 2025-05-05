@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
+// Route for the endpoint for
 const friendsRoutes = require('./routes/friendsRoutes');
 
 app.use(cors());
