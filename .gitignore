@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # File for connection to mysql
-connectionMySQL.js
+.env
