@@ -1,4 +1,4 @@
-const groupService = require('../services/groupService');
+const groupService = require('../services/groupServices');
 
 exports.createGroup = async (req, res) => {
   try {
