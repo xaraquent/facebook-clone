@@ -5,6 +5,8 @@ const port = 3000;
 
 const friendsRoutes = require('./routes/friendsRoutes');
 const usersRoutes = require('./routes/usersRoutes');
+const groupRoutes = require('./routes/groupRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -12,6 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/facebook', friendsRoutes);
 app.use('/facebook', usersRoutes);
+app.use('/facebook', groupRoutes);
+app.use('/facebook', postRoutes);
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
 });
