@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 const friendsRoutes = require('./routes/friendsRoutes');
 const usersRoutes = require('./routes/usersRoutes');
@@ -17,6 +17,10 @@ app.use('/facebook', usersRoutes);
 app.use('/facebook', groupRoutes);
 app.use('/facebook', postRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Backend är igång!');
+});
+
 app.listen(port, () => {
-  console.log(`Listening on port ${port}!`);
+  console.log(`Servern körs på http://localhost:${port}!`);
 });
