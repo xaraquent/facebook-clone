@@ -22,3 +22,22 @@ exports.getAllPosts = async (req, res) => {
     });
   }
 };
+
+exports.updatePost = (req, res) => {
+  const { post_id } = req.params;
+  const { post_content, post_reaction } = req.body;
+
+  postService
+    .updatePost(post_id, post_content, post_reaction)
+    .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }));
+};
+
+exports.deletePost = (req, res) => {
+  const { post_id } = req.params;
+
+  postService
+    .deletePost(post_id)
+    .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }));
+};
