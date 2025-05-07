@@ -1,4 +1,4 @@
-const commentService = require('../services/commentService');
+const commentService = require('../services/commentsService');
 
 // Skapa en ny kommentar
 exports.createComment = async (req, res) => {
@@ -24,7 +24,7 @@ exports.updateComment = async (req, res) => {
 
     const updated = await commentService.updateComment(commentId, {
       comment_content,
-      comment_reaction
+      comment_reaction,
     });
 
     res.json({ message: updated });
@@ -54,7 +54,7 @@ exports.getCommentsByPost = async (req, res) => {
   }
 };
 
-// Radera en kommentar 
+// Radera en kommentar
 exports.deleteComment = async (req, res) => {
   try {
     const commentId = req.params.id;
