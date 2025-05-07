@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -8,7 +10,6 @@ const usersRoutes = require('./routes/usersRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentsRoutes = require('./routes/commentsRoutes');
-
 
 app.use(cors());
 app.use(express.json());
