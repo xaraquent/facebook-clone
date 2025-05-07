@@ -11,7 +11,7 @@ router.get('/', commentsController.getAllComments);
 // Hämta kommentarer för ett inlägg
 router.get('/post/:postId', commentsController.getCommentsByPost);
 
-// Uppdatera/redigera 
+// Uppdatera/redigera
 router.put('/:id', commentsController.updateComment);
 
 // Radera en kommentar

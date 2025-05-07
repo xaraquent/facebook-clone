@@ -12,13 +12,14 @@ function createComment({ comment_post_id, comment_user_id, comment_reaction, com
       [comment_post_id, comment_user_id, comment_reaction, comment_content],
       (err, result) => {
         if (err) reject(err);
-        else resolve({
-          comment_id: result.insertId,
-          comment_post_id,
-          comment_user_id,
-          comment_reaction,
-          comment_content
-        });
+        else
+          resolve({
+            comment_id: result.insertId,
+            comment_post_id,
+            comment_user_id,
+            comment_reaction,
+            comment_content,
+          });
       }
     );
   });
@@ -77,5 +78,5 @@ module.exports = {
   getAllComments,
   getCommentsByPost,
   updateComment,
-  deleteComment
+  deleteComment,
 };
