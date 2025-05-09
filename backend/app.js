@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // Route for the endpoint for
 const friendsRoutes = require('./routes/friendsRoutes');
@@ -29,3 +29,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Servern körs på http://localhost:${port}!`);
 });
+console.log('Ansluter med användare:', process.env.MYSQL_USER);
