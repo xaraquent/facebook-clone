@@ -1,0 +1,34 @@
+INSERT INTO Groups_chat (group_name) VALUES
+('Matälskare'),
+('JavaScript-nördar'),
+('Gym och träning'),
+('Gaming Community');
+
+INSERT INTO Users (user_name, user_email, user_password, user_status, user_group_id, user_created_date) VALUES
+('alice', 'alice@example.com', 'password123', TRUE, 1, NOW()),
+('bob', 'bob@example.com', 'password123', TRUE, 2, NOW()),
+('charlie', 'charlie@example.com', 'password123', FALSE, 3, NOW());
+
+INSERT INTO Posts (post_user_id, post_content, post_reaction) VALUES
+(1, 'Hej världen! Detta är mitt första inlägg.', 'like'),
+(2, 'Lunchen var riktigt god idag.', 'love'),
+(3, 'Kodade hela natten 😴', 'haha'),
+(1, 'Jag älskar att använda Docker!', 'like');
+
+INSERT INTO Comments (comment_post_id, comment_user_id, comment_reaction, comment_content) VALUES
+(1, 2, 'like', 'Haha, det var kul!'),
+(1, 3, 'love', 'Bra skrivet!'),
+(2, 1, 'like', 'Vad åt du?'),
+(3, 2, 'haha', 'Respekt, det är imponerande.'),
+(4, 3, 'wow', 'Docker är mäktigt!');
+
+INSERT INTO Friends (friend_name, friend_created_date) VALUES
+('David', NOW()),
+('Eva', NOW()),
+('Filip', NOW());
+
+INSERT INTO Friend_list (friend_friend_ID, friend_user_ID) VALUES
+(1, 1),
+(2, 1),
+(2, 2),
+(3, 3);
