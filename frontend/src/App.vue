@@ -1,6 +1,4 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+<script setup></script>
 
 <template>
   <div id="app">
@@ -39,7 +37,7 @@ header {
   background: white;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .new-post textarea {
