@@ -9,12 +9,12 @@ router.get('/users', usersController.getUsers);
 router.get('/user', usersController.getUser);
 
 // Skapar konto
-router.post('/createUser', usersController.createUser)
+router.post('/createUser', usersController.createUser);
 
 // Ta bort konto
-router.delete('/deleteUser', usersController.deleteUser)
+router.delete('/deleteUser', usersController.deleteUser);
 
-// Uppdatera sit konto 
-router.put('/update', usersController.usersUpdate)
+// Uppdatera sit konto
+router.put('/update', usersController.updateUser);
 
-module.exports = router
+module.exports = router;
