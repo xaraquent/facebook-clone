@@ -19,7 +19,7 @@ exports.createComment = async (req, res) => {
 //uppdatera/redigera kommentar
 exports.updateComment = async (req, res) => {
   try {
-    const commentId = req.params.id;
+    const commentId = req.params.comment_id;
     const { comment_content, comment_reaction } = req.body;
 
     const updated = await commentService.updateComment(commentId, {
@@ -46,7 +46,7 @@ exports.getAllComments = async (req, res) => {
 // Hämta kommentarer till ett inlägg
 exports.getCommentsByPost = async (req, res) => {
   try {
-    const postId = req.params.postId;
+    const postId = req.params.post_id;
     const comments = await commentService.getCommentsByPost(postId);
     res.json({ comments });
   } catch (error) {
@@ -57,7 +57,7 @@ exports.getCommentsByPost = async (req, res) => {
 // Radera en kommentar
 exports.deleteComment = async (req, res) => {
   try {
-    const commentId = req.params.id;
+    const commentId = req.params.comment_id;
     await commentService.deleteComment(commentId);
     res.json({ message: 'Kommentaren raderades' });
   } catch (error) {

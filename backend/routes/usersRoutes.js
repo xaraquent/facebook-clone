@@ -14,7 +14,7 @@ router.post('/createUser', usersController.createUser);
 // Ta bort konto
 router.delete('/deleteUser', usersController.deleteUser);
 
-// Uppdatera sit konto 
+// Uppdatera sit konto
 router.put('/update', usersController.updateUser);
 
-module.exports = router
+module.exports = router;
