@@ -3,18 +3,18 @@ const router = express.Router();
 const commentsController = require('../controllers/commentsController');
 
 // Skapa kommentar
-router.post('/', commentsController.createComment);
+router.post('/comment', commentsController.createComment);
 
 // Hämta alla kommentarer
-router.get('/', commentsController.getAllComments);
+router.get('/comments', commentsController.getAllComments);
 
 // Hämta kommentarer för ett inlägg
-router.get('/post/:postId', commentsController.getCommentsByPost);
+router.get('/comments/post/:post_id', commentsController.getCommentsByPost);
 
 // Uppdatera/redigera
-router.put('/:id', commentsController.updateComment);
+router.put('/comment/:comment_id', commentsController.updateComment);
 
 // Radera en kommentar
-router.delete('/:id', commentsController.deleteComment);
+router.delete('/comment/:comment_id', commentsController.deleteComment);
 
 module.exports = router;
