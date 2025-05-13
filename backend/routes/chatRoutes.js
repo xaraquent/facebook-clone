@@ -12,6 +12,6 @@ router.delete('/messages', chatController.deleteMessage);
 
 router.delete('/messages', chatController.deleteChat);
 
-router.put('/messages', chatController.updatemessage);
+router.put('/messages', chatController.updateMessage);
 
 module.exports = router;
