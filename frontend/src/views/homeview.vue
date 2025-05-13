@@ -69,6 +69,8 @@ body {
   background-color: #f0f2f5;
 }
 
+<style scoped>
+ main
 header {
   background-color: #1877f2;
   color: white;

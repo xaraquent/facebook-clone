@@ -17,4 +17,7 @@ router.delete('/deleteUser', usersController.deleteUser);
 // Uppdatera sit konto
 router.put('/update', usersController.updateUser);
 
+//Route för att kunna logga in
+router.post('login', usersController.loginUser);
+
 module.exports = router;
