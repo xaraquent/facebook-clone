@@ -8,19 +8,12 @@
       <!-- skapa inlägg -->
       <section class="new-post">
         <h2>Skapa ett inlägg</h2>
-        <textarea
-          v-model="newPost"
-          placeholder="Vad gör du just nu?"
-        ></textarea>
+        <textarea v-model="newPost" placeholder="Vad gör du just nu?"></textarea>
         <button @click="publishPost">Publicera</button>
       </section>
 
       <!-- alla inlägg -->
-      <section
-        v-for="post in posts"
-        :key="post.id"
-        class="post"
-      >
+      <section v-for="post in posts" :key="post.id" class="post">
         <div class="post-header">
           <strong class="post-user">{{ post.user }}</strong>
           <small class="post-date">{{ formatDate(post.date) }}</small>
@@ -31,7 +24,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
 
@@ -39,7 +31,7 @@ import { ref } from 'vue';
 const newPost = ref('');
 const posts = ref([
   { id: 1, user: 'Sara Johansson', content: 'frukost', date: new Date() },
-  { id: 2, user: 'Johan Andersson', content: 'hej hej', date: new Date() }
+  { id: 2, user: 'Johan Andersson', content: 'hej hej', date: new Date() },
 ]);
 
 function publishPost() {
@@ -49,11 +41,11 @@ function publishPost() {
     id: posts.value.length + 1,
     user: 'Du?',
     content: newPost.value,
-    date: new Date()
+    date: new Date(),
   };
 
   // Nyaste inlägg överst
-  posts.value.unshift(post); 
+  posts.value.unshift(post);
   newPost.value = '';
 }
 
@@ -62,15 +54,7 @@ function formatDate(date) {
 }
 </script>
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-}
-
 <style scoped>
- main
 header {
   background-color: #1877f2;
   color: white;
