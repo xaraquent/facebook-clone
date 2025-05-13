@@ -83,9 +83,13 @@ function loginUser(user_email, user_password) {
   return new Promise((resolve, reject) => {
     let sql = `
     SELECT * FROM Users WHERE user_email = ? AND user_password = ? `;
-    connectionMySQL.query(sql, [user_email, user_password], (err, rows));
-    if (err) reject(err);
-    else resolve(rows);
+    connectionMySQL.query(sql, [user_email, user_password], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else if (rows.length === 0) {
+        resolve(null);
+      } else resolve(rows[0]);
+    });
   });
 }
 

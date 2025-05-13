@@ -18,6 +18,6 @@ router.delete('/users', usersController.deleteUser);
 router.put('/users', usersController.updateUser);
 
 //Route för att kunna logga in
-router.post('login', usersController.loginUser);
+router.post('/login', usersController.loginUser);
 
 module.exports = router;
