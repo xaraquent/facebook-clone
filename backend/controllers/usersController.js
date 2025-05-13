@@ -56,9 +56,8 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    const { user_id, user_name, user_password, user_emil } = req.body;
+    const {user_name, user_password, user_emil } = req.body;
     const updated = await usersService.updateUser(userId, {
-      user_id,
       user_name,
       user_password,
       user_emil,
@@ -73,10 +72,16 @@ exports.loginUser = async (req, res) => {
   try {
     const { user_email, user_password } = req.body;
     const user = await usersService.loginUser(user_email, user_password);
-    if (!user) {
+    if (!user || user.length === 0) {
       return res.status(401).json({ message: 'Fel email eller lösenord' });
     }
-    res.status(200).json({ message: 'Login successful', user });
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      user_ID: user.user_ID,
+      user_name: user.user_name,
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
