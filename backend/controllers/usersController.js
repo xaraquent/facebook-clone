@@ -56,9 +56,8 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    const { user_id, user_name, user_password, user_emil } = req.body;
+    const {user_name, user_password, user_emil } = req.body;
     const updated = await usersService.updateUser(userId, {
-      user_id,
       user_name,
       user_password,
       user_emil,

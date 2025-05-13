@@ -6,16 +6,16 @@ const usersController = require('../controllers/usersController');
 router.get('/users', usersController.getUsers);
 
 // Hämta ett konto
-router.get('/user', usersController.getUser);
+router.get('/users', usersController.getUser);
 
 // Skapar konto
-router.post('/createUser', usersController.createUser);
+router.post('/users', usersController.createUser);
 
 // Ta bort konto
-router.delete('/deleteUser', usersController.deleteUser);
+router.delete('/users', usersController.deleteUser);
 
 // Uppdatera sit konto
-router.put('/update', usersController.updateUser);
+router.put('/users', usersController.updateUser);
 
 //Route för att kunna logga in
 router.post('login', usersController.loginUser);
