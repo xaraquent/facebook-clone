@@ -29,7 +29,7 @@ exports.getMessage = (async(req, res)=> {
 exports.updateMessage = (async(req, res)=> {
   const {messageID, content, reaction} = req.body;
   try{
-    const UpdateMessage = await chatController.updateOne({message_id: messageID},{$set: {message_content:content}},{$set:{message_reaction:reaction}});
+    const UpdateMessage = await chatController.updateOne({message_ID: messageID},{$set: {message_content:content}},{$set:{message_reaction:reaction}});
     return res.status(200).json(UpdateMessage);
   }
   catch (error){
@@ -42,7 +42,7 @@ exports.updateMessage = (async(req, res)=> {
 exports.deleteMessage = (async(req, res)=> {
   const {messageID} =req.params;
   try{
-    const DeleteMessage = await chatController.deleteOne({message_id: messageID});
+    const DeleteMessage = await chatController.deleteOne({message_ID: messageID});
     return res.status(200).json(DeleteMessage);
   }
   catch (error){
@@ -55,7 +55,7 @@ exports.deleteMessage = (async(req, res)=> {
 exports.deleteChat = (async(req, res)=> {
   const {chatID} =req.parsms;
   try{
-    const DeleteChat = await chatController.deleteOne({chat_id: chatID});
+    const DeleteChat = await chatController.deleteOne({chat_ID: chatID});
     return res.status(200).json(DeleteChat);
   }
   catch (error){
@@ -70,10 +70,10 @@ exports.createMessage = (async(req, res)=> {
 
   try{
     const newMessage = new messageModel({
-      chat_id: chatID,
-      message_id: messageID,
+      chat_ID: chatID,
+      message_ID: messageID,
       message_content: messageContent,
-      message_user_id: messageUserID,
+      message_user_ID: messageUserID,
       message_reaction: messageReaction
     })
     const insertedMessage = await newMessage.save();

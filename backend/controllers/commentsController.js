@@ -3,10 +3,10 @@ const commentService = require('../services/commentsService');
 // Skapa en ny kommentar
 exports.createComment = async (req, res) => {
   try {
-    const { comment_post_id, comment_user_id, comment_reaction, comment_content } = req.body;
+    const { comment_post_ID, comment_user_ID, comment_reaction, comment_content } = req.body;
     const newComment = await commentService.createComment({
-      comment_post_id,
-      comment_user_id,
+      comment_post_ID,
+      comment_user_ID,
       comment_reaction,
       comment_content,
     });
@@ -19,7 +19,7 @@ exports.createComment = async (req, res) => {
 //uppdatera/redigera kommentar
 exports.updateComment = async (req, res) => {
   try {
-    const commentId = req.params.comment_id;
+    const commentId = req.params.comment_ID;
     const { comment_content, comment_reaction } = req.body;
 
     const updated = await commentService.updateComment(commentId, {
@@ -46,8 +46,8 @@ exports.getAllComments = async (req, res) => {
 // Hämta kommentarer till ett inlägg
 exports.getCommentsByPost = async (req, res) => {
   try {
-    const postId = req.params.post_id;
-    const comments = await commentService.getCommentsByPost(postId);
+    const postID = req.params.post_ID;
+    const comments = await commentService.getCommentsByPost(postID);
     res.json({ comments });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -57,8 +57,8 @@ exports.getCommentsByPost = async (req, res) => {
 // Radera en kommentar
 exports.deleteComment = async (req, res) => {
   try {
-    const commentId = req.params.comment_id;
-    await commentService.deleteComment(commentId);
+    const commentID = req.params.comment_ID;
+    await commentService.deleteComment(commentID);
     res.json({ message: 'Kommentaren raderades' });
   } catch (error) {
     return res.status(500).json({ error: error.message });

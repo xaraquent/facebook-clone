@@ -44,8 +44,8 @@ exports.createUser = async (req, res) => {
 //Ta bort ett konto
 exports.deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
-    await usersService.deleteUser(userId);
+    const userID = req.params.ID;
+    await usersService.deleteUser(userID);
     res.json({ message: 'Your accont has bin deleted' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -55,9 +55,9 @@ exports.deleteUser = async (req, res) => {
 //Uppdatera sit konto
 exports.updateUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userID = req.params.ID;
     const {user_name, user_password, user_emil } = req.body;
-    const updated = await usersService.updateUser(userId, {
+    const updated = await usersService.updateUser(userID, {
       user_name,
       user_password,
       user_emil,

@@ -4,7 +4,7 @@ const chatController = require('../controllers/chatController');
 
 router.get('/messages', chatController.getMessages);
 
-router.get('/message/:message_id', chatController.getMessage);
+router.get('/message/:message_ID', chatController.getMessage);
 
 router.post('/messages', chatController.createMessage);
 

@@ -9,12 +9,12 @@ router.post('/comments', commentsController.createComment);
 router.get('/comments', commentsController.getAllComments);
 
 // Hämta kommentarer för ett inlägg
-router.get('/comment/:post_id', commentsController.getCommentsByPost);
+router.get('/comment/:post_ID', commentsController.getCommentsByPost);
 
 // Uppdatera/redigera
 router.put('/comments', commentsController.updateComment);
 
 // Radera en kommentar
-router.delete('/comments/:comment_id', commentsController.deleteComment);
+router.delete('/comments/:comment_ID', commentsController.deleteComment);
 
 module.exports = router;
