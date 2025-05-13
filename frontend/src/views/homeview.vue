@@ -16,13 +16,7 @@
   </div>
 </template>
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-}
-
+<style scoped>
 header {
   background-color: #1877f2;
   color: white;

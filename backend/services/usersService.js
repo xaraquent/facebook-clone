@@ -14,12 +14,12 @@ function getUsers() {
 }
 
 // Hämta ett konto
-function getUser() {
+function getUser(user_ID) {
   return new Promise((resolve, reject) => {
     let sql = `
-    SELECT * FROM Users WHERE user_id = ?
+    SELECT * FROM Users WHERE user_ID = ?
     `;
-    connectionMySQL.query(sql, (err, rows) => {
+    connectionMySQL.query(sql, [user_ID], (err, rows) => {
       if (err) reject(err);
       else resolve(rows);
     });
@@ -27,35 +27,36 @@ function getUser() {
 }
 
 // Skapar konto
-function createUser({ user_id, user_name, user_password, user_emil, user_created_date}) {
+function createUser({ user_id, user_name, user_password, user_email, user_created_date }) {
   return new Promise((resolve, reject) => {
     let sql = `
-    INSERT INTO Users (user_id, user_name, user_password, user_emil, user_created_date) VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Users (user_id, user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ?, ?)
     `;
     connectionMySQL.query(
-      sql, 
-      [user_id, user_name, user_password, user_emil, user_created_date],
+      sql,
+      [user_id, user_name, user_password, user_email, user_created_date],
       (err, result) => {
         if (err) reject(err);
-        else resolve({
-        user_id: result.insertId, 
-        user_name, 
-        user_password, 
-        user_emil, 
-        user_created_date
-        });
+        else
+          resolve({
+            user_id: result.insertId,
+            user_name,
+            user_password,
+            user_email,
+            user_created_date,
+          });
       }
     );
   });
 }
 
 // ta bort konto
-function deleteUser() {
+function deleteUser(user_ID) {
   return new Promise((resolve, reject) => {
     let sql = `
-    DELETE FROM Users WHERE user_id = ?
+    DELETE FROM Users WHERE user_ID = ?
     `;
-    connectionMySQL.query(sql, [user_id], (err, result) => {
+    connectionMySQL.query(sql, [user_ID], (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });
@@ -63,23 +64,36 @@ function deleteUser() {
 }
 
 // Uppdatera sit konto
-function updateUser(user_id, {user_name,user_password, user_emil}){
+function updateUser(user_ID, { user_name, user_password, user_email }) {
   return new Promise((resolve, reject) => {
-    const sql = `
+    let sql = `
     UPDATE Users 
-    SET user_name = ?, user_password = ?, user_emil = ? 
-    WHERE user_id = ?
+    SET user_name = ?, user_password = ?, user_email = ? 
+    WHERE user_ID = ?
     `;
-    connectionMySQL.query(sql,[user_id, user_name, user_password, user_emil], (err, result) => {
+    connectionMySQL.query(sql, [user_ID, user_name, user_password, user_email], (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });
   });
 }
+
+//Route för att kunna logga med en redan skapad användare
+function loginUser(user_email, user_password) {
+  return new Promise((resolve, reject) => {
+    let sql = `
+    SELECT * FROM Users WHERE user_email = ? AND user_password = ? `;
+    connectionMySQL.query(sql, [user_email, user_password], (err, rows));
+    if (err) reject(err);
+    else resolve(rows);
+  });
+}
+
 module.exports = {
   getUsers,
   getUser,
   deleteUser,
   createUser,
-  updateUser
+  updateUser,
+  loginUser,
 };
