@@ -26,16 +26,15 @@ exports.getUser = async (req, res) => {
 
 // Skapar ett konto
 exports.createUser = async (req, res) => {
+  const { user_name, user_password, user_email, user_created_date } = req.body;
   try {
-    const { user_ID, user_name, user_password, user_emil, user_created_date } = req.body;
     const newUser = await usersService.createUser({
-      user_ID,
       user_name,
       user_password,
-      user_emil,
+      user_email,
       user_created_date,
     });
-    res.status(201).json(newUser);
+    res.status(201).json({ newUser });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -56,7 +55,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const userID = req.params.ID;
-    const {user_name, user_password, user_emil } = req.body;
+    const { user_name, user_password, user_emil } = req.body;
     const updated = await usersService.updateUser(userID, {
       user_name,
       user_password,
