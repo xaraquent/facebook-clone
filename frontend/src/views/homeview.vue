@@ -1,58 +1,172 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const posts = ref([]);
+const newPost = ref('');
+const editingPostId = ref(null);
+const editedContent = ref('');
+const dropdownPostId = ref(null);
+const now = ref(new Date());
+
+const userId = localStorage.getItem('user_ID');
+const userName = localStorage.getItem('user_name');
+
+let timer = null;
+
+// Håll tiden uppdaterad 
+onMounted(() => {
+  fetchPosts();
+  timer = setInterval(() => {
+    now.value = new Date();
+  }, 60000);
+});
+
+onUnmounted(() => {
+  clearInterval(timer);
+});
+
+// Hämta alla inlägg
+function fetchPosts() {
+  fetch('http://localhost:3000/facebook/posts')
+    .then(res => res.json())
+    .then(data => {
+      posts.value = (data.posts || data).map(p => ({
+        id: p.post_ID,
+        user_id: p.post_user_ID,
+        user: p.user_name || `Användare ${p.post_user_ID}`,
+        content: p.post_content,
+        date: p.post_date || new Date()
+      }));
+    })
+    .catch(err => console.error('Fel vid hämtning:', err));
+}
+
+// Skapa nytt inlägg
+function publishPost() {
+  if (!newPost.value.trim()) return;
+
+  fetch('http://localhost:3000/facebook/post', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      post_user_ID: userId,
+      post_content: newPost.value,
+      post_reaction: 'like'
+    })
+  })
+    .then(res => res.json())
+    .then(saved => {
+      posts.value.unshift({
+        id: saved.post_ID,
+        user_id: userId,
+        user: userName,
+        content: newPost.value,
+        date: new Date()
+      });
+      newPost.value = '';
+    })
+    .catch(err => console.error('Fel vid post:', err));
+}
+
+// Starta redigering
+function startEdit(post) {
+  editingPostId.value = post.id;
+  editedContent.value = post.content;
+  dropdownPostId.value = null;
+}
+
+// Spara redigering
+function saveEdit(postId) {
+  fetch(`http://localhost:3000/facebook/post/${postId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      post_content: editedContent.value,
+      post_reaction: 'like'
+    })
+  })
+    .then(res => res.json())
+    .then(() => {
+      editingPostId.value = null;
+      fetchPosts();
+    })
+    .catch(err => console.error('Fel vid redigering:', err));
+}
+
+// Ta bort inlägg
+function deletePost(postId) {
+  fetch(`http://localhost:3000/facebook/post/${postId}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(() => fetchPosts())
+    .catch(err => console.error('Fel vid borttagning:', err));
+}
+
+//Visa tid sedan inlägget postades
+function formatDate(date) {
+  const d = new Date(date);
+  const diff = now.value - d;
+
+  const mins = Math.floor(diff / 60000);
+  const h = Math.floor(mins / 60);
+  const days = Math.floor(h / 24);
+
+  if (mins < 1) return 'just nu';
+  if (mins < 60) return `${mins} min sedan`;
+  if (h < 24) return `${h} tim sedan`;
+  return `${days} dagar sedan`;
+}
+
+// "..." för varje inlägg
+function toggleDropdown(postId) {
+  dropdownPostId.value = dropdownPostId.value === postId ? null : postId;
+}
+</script>
+
 <template>
   <div id="app">
     <header>
-      <h1>Facebook-clone</h1>
+      <h1>Facebook-klon</h1>
     </header>
 
     <main class="feed">
-      <!-- skapa inlägg -->
+      <!-- Skapa nytt inlägg -->
       <section class="new-post">
         <h2>Skapa ett inlägg</h2>
         <textarea v-model="newPost" placeholder="Vad gör du just nu?"></textarea>
         <button @click="publishPost">Publicera</button>
       </section>
 
-      <!-- alla inlägg -->
+      <!-- Visa inlägg -->
       <section v-for="post in posts" :key="post.id" class="post">
         <div class="post-header">
-          <strong class="post-user">{{ post.user }}</strong>
-          <small class="post-date">{{ formatDate(post.date) }}</small>
+          <div>
+            <strong class="post-user">{{ post.user }}</strong>
+            <div class="post-date">{{ formatDate(post.date) }}</div>
+          </div>
+
+          <div v-if="post.user_id == userId" class="dropdown-wrapper">
+            <button class="dots-btn" @click="toggleDropdown(post.id)">⋯</button>
+            <div v-if="dropdownPostId === post.id" class="dropdown-menu">
+              <button @click="startEdit(post)">Redigera</button>
+              <button @click="deletePost(post.id)">Ta bort</button>
+            </div>
+          </div>
         </div>
-        <p class="post-content">{{ post.content }}</p>
+
+        <div v-if="editingPostId === post.id">
+          <textarea v-model="editedContent" class="edit-area"></textarea>
+          <button @click="saveEdit(post.id)">Spara</button>
+          <button @click="editingPostId = null">Avbryt</button>
+        </div>
+        <div v-else>
+          <p class="post-content">{{ post.content }}</p>
+        </div>
       </section>
     </main>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-// hur får vi andra användare??
-const newPost = ref('');
-const posts = ref([
-  { id: 1, user: 'Sara Johansson', content: 'frukost', date: new Date() },
-  { id: 2, user: 'Johan Andersson', content: 'hej hej', date: new Date() },
-]);
-
-function publishPost() {
-  if (newPost.value.trim() === '') return;
-
-  const post = {
-    id: posts.value.length + 1,
-    user: 'Du?',
-    content: newPost.value,
-    date: new Date(),
-  };
-
-  // Nyaste inlägg överst
-  posts.value.unshift(post);
-  newPost.value = '';
-}
-
-function formatDate(date) {
-  return new Date(date).toLocaleString('sv-SE');
-}
-</script>
 
 <style scoped>
 header {
@@ -70,11 +184,13 @@ header {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 80vh;
+  overflow-y: auto;
 }
 
 .new-post textarea {
   background-color: #fff;
-  color: #888;
+  color: #333;
   width: 100%;
   height: 60px;
   padding: 5px;
@@ -99,26 +215,77 @@ header {
   margin-top: 10px;
   border-radius: 6px;
   background-color: #f9f9f9;
+  position: relative;
 }
 
 .post-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
+  align-items: start;
 }
 
 .post-user {
   color: #1877f2;
+  display: block;
 }
 
 .post-date {
-  color: #888;
   font-size: 12px;
+  color: #888;
 }
 
 .post-content {
   color: black;
-  margin: 0;
+  margin-top: 8px;
   font-size: 15px;
+}
+
+.edit-area {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dots-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  color: #666;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  background: white;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
 }
 </style>

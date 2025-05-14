@@ -13,9 +13,25 @@ function createPost({ post_user_ID, post_content, post_reaction }) {
   });
 }
 
-function getAllPosts() {
+/*function getAllPosts() {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM Posts ORDER BY post_ID DESC';
+    connectionMySQL.query(sql, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+}*/
+
+//ändrade till denna 
+function getAllPosts() {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT Posts.*, Users.user_name
+      FROM Posts
+      JOIN Users ON Posts.post_user_ID = Users.user_id
+      ORDER BY Posts.post_ID DESC
+    `;
     connectionMySQL.query(sql, (err, rows) => {
       if (err) reject(err);
       else resolve(rows);

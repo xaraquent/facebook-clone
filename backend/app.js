@@ -30,8 +30,8 @@ app.get('/', (req, res) => {
   res.send('Backend är igång!');
 });
 
-const connectionMongoDB = require('./connectionMongoDB');
-connectionMongoDB();
+//const connectionMongoDB = require('./connectionMongoDB');
+//connectionMongoDB();
 
 app.listen(port, () => {
   console.log(`Servern körs på http://localhost:${port}!`);
