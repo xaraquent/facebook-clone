@@ -19,10 +19,10 @@ exports.createComment = async (req, res) => {
 //uppdatera/redigera kommentar
 exports.updateComment = async (req, res) => {
   try {
-    const commentId = req.params.comment_ID;
+    const commentID = req.params.comment_ID;
     const { comment_content, comment_reaction } = req.body;
 
-    const updated = await commentService.updateComment(commentId, {
+    const updated = await commentService.updateComment(commentID, {
       comment_content,
       comment_reaction,
     });

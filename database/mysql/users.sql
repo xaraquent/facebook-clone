@@ -7,6 +7,6 @@ CREATE TABLE Users (
     user_group_ID int,
     user_created_date TIMESTAMP,
     PRIMARY KEY (user_ID),
-    FOREIGN KEY (user_group_ID) REFERENCES Groups_chat(group_id)
+    FOREIGN KEY (user_group_ID) REFERENCES Groups_chat(group_ID)
 );
 

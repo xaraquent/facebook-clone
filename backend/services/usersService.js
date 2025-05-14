@@ -4,7 +4,7 @@ const connectionMySQL = require('../connectionMySQL');
 function getUsers() {
   return new Promise((resolve, reject) => {
     let sql = `
-    SELECT * FROM Users ORDER BY user_id DESC
+    SELECT * FROM Users ORDER BY user_ID DESC
     `;
     connectionMySQL.query(sql, (err, rows) => {
       if (err) reject(err);
@@ -30,7 +30,7 @@ function getUser(user_ID) {
 function createUser({ user_ID, user_name, user_password, user_email, user_created_date }) {
   return new Promise((resolve, reject) => {
     let sql = `
-    INSERT INTO Users (user_id, user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Users (user_ID, user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ?, ?)
     `;
     connectionMySQL.query(
       sql,
