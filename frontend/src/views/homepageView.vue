@@ -11,7 +11,7 @@ const route = useRoute();
   <section>
     <div class="signup">
       <label for="signup-btn" name="sign up">Skapa Konto</label>
-      <button id="signup-btn"><router-link to="">Skapa Konto</router-link></button>
+      <button id="signup-btn"><router-link to="/users">Skapa Konto</router-link></button>
     </div>
     <div class="login">
       <label for="login-btn" name="login">Logga In</label>
