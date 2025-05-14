@@ -27,14 +27,14 @@ function getUser(user_ID) {
 }
 
 // Skapar konto
-function createUser({ user_ID, user_name, user_password, user_email, user_created_date }) {
+function createUser({ user_name, user_password, user_email, user_created_date }) {
   return new Promise((resolve, reject) => {
     let sql = `
-    INSERT INTO Users (user_ID, user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Users (user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ? )
     `;
     connectionMySQL.query(
       sql,
-      [user_ID, user_name, user_password, user_email, user_created_date],
+      [user_name, user_password, user_email, user_created_date],
       (err, result) => {
         if (err) reject(err);
         else
