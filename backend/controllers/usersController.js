@@ -34,7 +34,10 @@ exports.createUser = async (req, res) => {
       user_email,
       user_created_date,
     });
-    res.status(201).json({ newUser });
+    res.status(201).json({
+      success: true,
+      data: newUser,
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
