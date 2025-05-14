@@ -4,7 +4,7 @@ const connectionMySQL = require('../connectionMySQL');
 function getUsers() {
   return new Promise((resolve, reject) => {
     let sql = `
-    SELECT * FROM Users ORDER BY user_id DESC
+    SELECT * FROM Users ORDER BY user_ID DESC
     `;
     connectionMySQL.query(sql, (err, rows) => {
       if (err) reject(err);
@@ -27,19 +27,19 @@ function getUser(user_ID) {
 }
 
 // Skapar konto
-function createUser({ user_id, user_name, user_password, user_email, user_created_date }) {
+function createUser({ user_ID, user_name, user_password, user_email, user_created_date }) {
   return new Promise((resolve, reject) => {
     let sql = `
-    INSERT INTO Users (user_id, user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Users (user_ID, user_name, user_password, user_email, user_created_date) VALUES (?, ?, ?, ?, ?)
     `;
     connectionMySQL.query(
       sql,
-      [user_id, user_name, user_password, user_email, user_created_date],
+      [user_ID, user_name, user_password, user_email, user_created_date],
       (err, result) => {
         if (err) reject(err);
         else
           resolve({
-            user_id: result.insertId,
+            user_ID: result.insertId,
             user_name,
             user_password,
             user_email,
@@ -83,9 +83,13 @@ function loginUser(user_email, user_password) {
   return new Promise((resolve, reject) => {
     let sql = `
     SELECT * FROM Users WHERE user_email = ? AND user_password = ? `;
-    connectionMySQL.query(sql, [user_email, user_password], (err, rows));
-    if (err) reject(err);
-    else resolve(rows);
+    connectionMySQL.query(sql, [user_email, user_password], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else if (rows.length === 0) {
+        resolve(null);
+      } else resolve(rows[0]);
+    });
   });
 }
 
