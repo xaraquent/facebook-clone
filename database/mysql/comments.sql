@@ -1,6 +1,6 @@
 CREATE TABLE Comments(
     comment_ID INT AUTO_INCREMENT NOT NULL,
-    comment_post_Id INT,
+    comment_post_ID INT,
     comment_user_ID INT,
     comment_reaction VARCHAR(255),
     comment_content VARCHAR(255),
