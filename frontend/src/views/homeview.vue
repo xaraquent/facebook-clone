@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 const posts = ref([]);
 const newPost = ref('');
@@ -7,13 +8,15 @@ const editingPostId = ref(null);
 const editedContent = ref('');
 const dropdownPostId = ref(null);
 const now = ref(new Date());
+const route = useRoute();
 
 const userId = localStorage.getItem('user_ID');
 const userName = localStorage.getItem('user_name');
+const userGroup = localStorage.getItem('user_group_ID');
 
 let timer = null;
 
-// Håll tiden uppdaterad 
+// Håll tiden uppdaterad
 onMounted(() => {
   fetchPosts();
   timer = setInterval(() => {
@@ -28,17 +31,17 @@ onUnmounted(() => {
 // Hämta alla inlägg
 function fetchPosts() {
   fetch('http://localhost:3000/facebook/posts')
-    .then(res => res.json())
-    .then(data => {
-      posts.value = (data.posts || data).map(p => ({
+    .then((res) => res.json())
+    .then((data) => {
+      posts.value = (data.posts || data).map((p) => ({
         id: p.post_ID,
         user_id: p.post_user_ID,
         user: p.user_name || `Användare ${p.post_user_ID}`,
         content: p.post_content,
-        date: p.post_date || new Date()
+        date: p.post_date || new Date(),
       }));
     })
-    .catch(err => console.error('Fel vid hämtning:', err));
+    .catch((err) => console.error('Fel vid hämtning:', err));
 }
 
 // Skapa nytt inlägg
@@ -51,21 +54,21 @@ function publishPost() {
     body: JSON.stringify({
       post_user_ID: userId,
       post_content: newPost.value,
-      post_reaction: 'like'
-    })
+      post_reaction: 'like',
+    }),
   })
-    .then(res => res.json())
-    .then(saved => {
+    .then((res) => res.json())
+    .then((saved) => {
       posts.value.unshift({
         id: saved.post_ID,
         user_id: userId,
         user: userName,
         content: newPost.value,
-        date: new Date()
+        date: new Date(),
       });
       newPost.value = '';
     })
-    .catch(err => console.error('Fel vid post:', err));
+    .catch((err) => console.error('Fel vid post:', err));
 }
 
 // Starta redigering
@@ -82,25 +85,25 @@ function saveEdit(postId) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       post_content: editedContent.value,
-      post_reaction: 'like'
-    })
+      post_reaction: 'like',
+    }),
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(() => {
       editingPostId.value = null;
       fetchPosts();
     })
-    .catch(err => console.error('Fel vid redigering:', err));
+    .catch((err) => console.error('Fel vid redigering:', err));
 }
 
 // Ta bort inlägg
 function deletePost(postId) {
   fetch(`http://localhost:3000/facebook/post/${postId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(() => fetchPosts())
-    .catch(err => console.error('Fel vid borttagning:', err));
+    .catch((err) => console.error('Fel vid borttagning:', err));
 }
 
 //Visa tid sedan inlägget postades
@@ -121,6 +124,38 @@ function formatDate(date) {
 // "..." för varje inlägg
 function toggleDropdown(postId) {
   dropdownPostId.value = dropdownPostId.value === postId ? null : postId;
+}
+
+//Hämtar användarens grupper
+const dataGroups = ref('');
+
+fetch('http://localhost:3000/facebook/groups')
+  .then((res) => res.json())
+  .then((data) => {
+    // console.log(data.groups);
+    dataGroups.value = data.groups;
+    matchUserAndGroups();
+  });
+
+const userGroups = ref([]);
+
+fetch(`http://localhost:3000/facebook/users/${userId}`)
+  .then((res) => res.json())
+  .then((user) => {
+    // console.log(user.user[0]);
+    if (user.user[0].user_group_ID) {
+      const groupsIDs = user.user[0].user_group_ID.toString().split('').map(Number);
+      userGroups.value = groupsIDs;
+      matchUserAndGroups();
+    }
+  });
+
+function matchUserAndGroups() {
+  if (userGroups.value.length && dataGroups.value.length) {
+    dataGroups.value = dataGroups.value.filter((group) =>
+      userGroups.value.includes(group.group_ID)
+    );
+  }
 }
 </script>
 
@@ -165,6 +200,11 @@ function toggleDropdown(postId) {
         </div>
       </section>
     </main>
+    <aside class="groups-list">
+      <ul>
+        <li v-for="group in dataGroups" :key="group.group_ID">{{ group.group_name }}</li>
+      </ul>
+    </aside>
   </div>
 </template>
 
@@ -287,5 +327,33 @@ header {
 
 .dropdown-menu button:hover {
   background-color: #f0f0f0;
+}
+
+.groups-list {
+  position: fixed;
+  top: 8.5rem; /* justera beroende på header */
+  left: 20px;
+  width: 5rem;
+  background-color: #4350df;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 70vh;
+  overflow-y: auto;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.groups-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.groups-list li:hover {
+  background-color: #e4e6eb;
+  color: #000200;
+  cursor: pointer;
+  font-weight: 500;
 }
 </style>
