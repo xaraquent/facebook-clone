@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { RouterLink } from 'vue-router';
 
 const posts = ref([]);
 const newPost = ref('');
@@ -165,6 +166,13 @@ function matchUserAndGroups() {
       <h1>Facebook-klon</h1>
     </header>
 
+    <router-link to="/messages" class="chat-button">Chatt</router-link>
+
+    <aside class="groups-list">
+      <ul>
+        <li v-for="group in dataGroups" :key="group.group_ID">{{ group.group_name }}</li>
+      </ul>
+    </aside>
     <main class="feed">
       <!-- Skapa nytt inlägg -->
       <section class="new-post">
@@ -200,11 +208,6 @@ function matchUserAndGroups() {
         </div>
       </section>
     </main>
-    <aside class="groups-list">
-      <ul>
-        <li v-for="group in dataGroups" :key="group.group_ID">{{ group.group_name }}</li>
-      </ul>
-    </aside>
   </div>
 </template>
 
@@ -330,7 +333,7 @@ header {
 }
 
 .groups-list {
-  position: fixed;
+  position: relative;
   top: 8.5rem; /* justera beroende på header */
   left: 20px;
   width: 5rem;
