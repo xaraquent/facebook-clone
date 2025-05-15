@@ -14,8 +14,9 @@ exports.getUsers = async (req, res) => {
 
 // Hämta ett konton
 exports.getUser = async (req, res) => {
+  const { user_ID } = req.params;
   try {
-    const user = await usersService.getUser();
+    const user = await usersService.getUser(user_ID);
     res.json({ user });
   } catch (error) {
     return res.status(500).json({

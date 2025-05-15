@@ -23,6 +23,7 @@ function login(event) {
       if (data.success) {
         localStorage.setItem('user_ID', data.user_ID);
         localStorage.setItem('user_name', data.user_name);
+        localStorage.setItem('user_group_ID', data.user_group_ID);
         router.push(`homeview/${data.user_ID}`);
       } else {
         //Sätter message till det felmeddelande som man får från backend
@@ -79,14 +80,14 @@ h1 {
   font-weight: bold;
 }
 
-.login input[type="email"],
-.login input[type="password"] {
+.login input[type='email'],
+.login input[type='password'] {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
 
-.login input[type="submit"] {
+.login input[type='submit'] {
   margin-top: 15px;
   background-color: #1877f2;
   color: white;
@@ -97,7 +98,7 @@ h1 {
   font-size: 16px;
 }
 
-.login input[type="submit"]:hover {
+.login input[type='submit']:hover {
   background-color: #145dd1;
 }
 
