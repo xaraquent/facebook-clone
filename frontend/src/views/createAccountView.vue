@@ -38,7 +38,7 @@ function registerNewUser(event) {
 </script>
 
 <template>
-  <h1>Skapa ditt konto</h1>
+  <h1>Skapa konto</h1>
   <section class="sign-up-container">
     <form @submit.prevent="registerNewUser" class="sign-up">
       <label for="name-input">Skriv in ditt namn:</label>
@@ -53,4 +53,65 @@ function registerNewUser(event) {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sign-up-container {
+  background-color: #f0f2f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+  color: #1877f2;
+  margin-top: 40px;
+  font-size: 28px;
+}
+
+.sign-up {
+  background: white;
+  margin-top: 20px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.sign-up input[type="text"],
+.sign-up input[type="email"],
+.sign-up input[type="password"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.sign-up input[type="submit"] {
+  margin-top: 15px;
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sign-up input[type="submit"]:hover {
+  background-color: #145dd1;
+}
+
+p {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+</style>
