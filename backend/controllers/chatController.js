@@ -53,7 +53,7 @@ exports.deleteMessage = async (req, res) => {
 };
 
 exports.deleteChat = async (req, res) => {
-  const { chatID } = req.parsms;
+  const { chatID } = req.params;
   try {
     const DeleteChat = await chatController.deleteOne({ chat_ID: chatID });
     return res.status(200).json(DeleteChat);

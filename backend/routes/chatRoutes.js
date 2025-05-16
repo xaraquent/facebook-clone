@@ -8,9 +8,9 @@ router.get('/message/:message_ID', chatController.getMessage);
 
 router.post('/messages', chatController.createMessage);
 
-router.delete('/messages', chatController.deleteMessage);
+router.delete('/messages/:message_ID', chatController.deleteMessage);
 
-router.delete('/messages', chatController.deleteChat);
+router.delete('/messages/:chat_ID', chatController.deleteChat);
 
 router.put('/messages', chatController.updateMessage);
 
