@@ -11,7 +11,7 @@ const dropdownPostId = ref(null);
 const now = ref(new Date());
 const route = useRoute();
 
-const userId = ref(localStorage.getItem('user_ID'));
+const userId = (localStorage.getItem('user_ID'));
 const userName = localStorage.getItem('user_name');
 const userGroup = localStorage.getItem('user_group_ID');
 
