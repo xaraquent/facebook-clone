@@ -18,7 +18,7 @@ fetch('http://localhost:3000/facebook/messages')
   <section class="chat-container">
     <router-link :to="`/homeview/${user_ID}`" class="Home-button">till backa</router-link>
     <p>Antal meddelande: {{ numberOfMessages }}</p>
-    <p v-for="message in messages" :key="message._id">{{ message.message_content }}</p>
-    <p v-for="message in messages" :key="message._id">{{ message.message_reaction }}</p>
+    <p v-for="message in messages" :key="message._id">{{ message.message_content }} {{ message.message_reaction }}</p>
+    <!-- <p v-for="message in messages" :key="message._id">{{ message.message_reaction }}</p> -->
   </section>
 </template>
