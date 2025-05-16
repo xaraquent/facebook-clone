@@ -166,7 +166,7 @@ function matchUserAndGroups() {
       <h1>Facebook-klon</h1>
     </header>
 
-    <router-link to="/messages" class="chat-button">Chatt</router-link>
+    <router-link :to="`/messages/${userId}`" class="chat-button">Chatt</router-link>
 
     <aside class="groups-list">
       <ul>
