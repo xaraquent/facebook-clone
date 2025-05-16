@@ -1,5 +1,10 @@
 <script setup>
 import { ref } from 'vue';
+fetch('http://localhost:3000/facebook/messages')
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data);
+  });
 </script>
 
 <template>
