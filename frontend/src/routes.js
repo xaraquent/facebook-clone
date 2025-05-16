@@ -29,7 +29,7 @@ const router = createRouter({
       component: homeview,
     },
     {
-      path: '/messages',
+      path: '/messages/:userid',
       name: 'messages',
       component: messages,
     },
