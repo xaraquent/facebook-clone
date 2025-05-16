@@ -11,7 +11,7 @@ const dropdownPostId = ref(null);
 const now = ref(new Date());
 const route = useRoute();
 
-const userId = localStorage.getItem('user_ID');
+const userId = ref(localStorage.getItem('user_ID'));
 const userName = localStorage.getItem('user_name');
 const userGroup = localStorage.getItem('user_group_ID');
 
@@ -164,10 +164,16 @@ function matchUserAndGroups() {
   <div id="app">
     <header>
       <h1>Facebook-klon</h1>
+      <nav class="navbar">
+    <div class="nav-left">
+      <router-link :to="`/homeview/${userId}`" class="nav-link">Inlägg</router-link>
+      <router-link :to="`/messages/${userId}`" class="nav-link">Chatt</router-link>
+    </div>
+    <div class="nav-right">
+      <router-link to="/" class="log-out-button">Logga ut</router-link>
+    </div>
+  </nav>
     </header>
-    <router-link to="/" class="log-out-button">Logga ut</router-link>
-
-    <router-link :to="`/messages/${userId}`" class="chat-button">Chatt</router-link>
 
     <aside class="groups-list">
       <ul>
@@ -221,6 +227,47 @@ header {
   font-size: 20px;
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 100px 20px 100px;
+  border-bottom: 1px solid #ccc;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: #abbbe4;
+}
+
+.log-out-button {
+  background-color: #e53935;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.log-out-button:hover {
+  background-color: #c62828;
+}
 .feed {
   max-width: 600px;
   margin: 20px auto;
