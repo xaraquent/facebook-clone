@@ -4,12 +4,10 @@ const chatSchema = new mongoose.Schema({
   chat_ID: {
     type: Number,
     required: true,
-    unique: true,
   },
   message_ID: {
     type: Number,
     required: true,
-    unique: true,
   },
   message_user_ID: {
     type: Number,
