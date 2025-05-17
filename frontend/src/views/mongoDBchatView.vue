@@ -17,6 +17,33 @@ function fetchMessages() {
 }
 
 fetchMessages();
+
+const sendMessage = () => {
+  if (!newMessage.value.trim()) return;
+
+  const newMessageData = {
+    chatID: 10,
+    messageID: Date.now(),
+    messageUserID: Number(user_ID),
+    messageContent: newMessage.value,
+    messageReaction: '',
+  };
+
+  fetch('http://localhost:3000/facebook/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newMessageData),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Fel vid sändning');
+      return res.json();
+    })
+    .then(() => {
+      newMessage.value = '';
+      fetchMessages();
+    })
+    .catch((err) => console.error(err));
+};
 </script>
 
 <template>
@@ -24,8 +51,8 @@ fetchMessages();
     <h1>Facebook-klon</h1>
     <nav class="navbar">
       <div class="nav-left">
-        <router-link :to="`/homeview/${userId}`" class="nav-link">Inlägg</router-link>
-        <router-link :to="`/messages/${userId}`" class="nav-link">Chatt</router-link>
+        <router-link :to="`/homeview/${user_ID}`" class="nav-link">Inlägg</router-link>
+        <router-link :to="`/messages/${user_ID}`" class="nav-link">Chatt</router-link>
       </div>
       <div class="nav-right">
         <router-link to="/" class="log-out-button">Logga ut</router-link>

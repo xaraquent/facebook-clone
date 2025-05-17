@@ -66,7 +66,7 @@ exports.deleteChat = async (req, res) => {
 
 exports.createMessage = async (req, res) => {
   const { chatID, messageID, messageContent, messageReaction, messageUserID } = req.body;
-
+  // console.log('Data lagt till POST', req.body);
   try {
     const newMessage = new chatController({
       chat_ID: chatID,
@@ -78,6 +78,7 @@ exports.createMessage = async (req, res) => {
     const insertedMessage = await newMessage.save();
     return res.status(201).json(insertedMessage);
   } catch (error) {
+    // console.error('Fel vid skapandet av meddelandet', error);
     return res.status(500).json({
       error: error.message,
     });
