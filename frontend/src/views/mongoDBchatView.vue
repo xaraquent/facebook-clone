@@ -1,38 +1,84 @@
 <script setup>
 import { ref } from 'vue';
-import {RouterLink} from "vue-router";
-const user_ID= localStorage.getItem("user_ID")
+import { RouterLink } from 'vue-router';
+const user_ID = localStorage.getItem('user_ID');
 const numberOfMessages = ref('');
 const messages = ref([]);
+const newMessage = ref(''); //Användarens textinmatining
 
-fetch('http://localhost:3000/facebook/messages')
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    numberOfMessages.value = data.length;
-    messages.value = data;
-  });
+function fetchMessages() {
+  fetch('http://localhost:3000/facebook/messages')
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      numberOfMessages.value = data.length;
+      messages.value = data;
+    });
+}
+
+fetchMessages();
+
+const sendMessage = () => {
+  if (!newMessage.value.trim()) return;
+
+  const newMessageData = {
+    chatID: 10,
+    messageID: Date.now(),
+    messageUserID: Number(user_ID),
+    messageContent: newMessage.value,
+    messageReaction: '',
+  };
+
+  fetch('http://localhost:3000/facebook/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newMessageData),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Fel vid sändning');
+      return res.json();
+    })
+    .then(() => {
+      newMessage.value = '';
+      fetchMessages();
+    })
+    .catch((err) => console.error(err));
+};
 </script>
 
 <template>
   <header>
-      <h1>Facebook-klon</h1>
-      <nav class="navbar">
-    <div class="nav-left">
-      <router-link :to="`/homeview/${userId}`" class="nav-link">Inlägg</router-link>
-      <router-link :to="`/messages/${userId}`" class="nav-link">Chatt</router-link>
-    </div>
-    <div class="nav-right">
-      <router-link to="/" class="log-out-button">Logga ut</router-link>
-    </div>
-  </nav>
-    </header>
-    <main>
-  <section class="chat-container">
-    <p>Antal meddelande: {{ numberOfMessages }}</p>
-    <p v-for="message in messages" :key="message._id">{{ message.message_content }} {{ message.message_reaction }}</p>
-    <!-- <p v-for="message in messages" :key="message._id">{{ message.message_reaction }}</p> -->
-  </section>
+    <h1>Facebook-klon</h1>
+    <nav class="navbar">
+      <div class="nav-left">
+        <router-link :to="`/homeview/${user_ID}`" class="nav-link">Inlägg</router-link>
+        <router-link :to="`/messages/${user_ID}`" class="nav-link">Chatt</router-link>
+      </div>
+      <div class="nav-right">
+        <router-link to="/" class="log-out-button">Logga ut</router-link>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="chat-container">
+      <router-link :to="`/homeview/${user_ID}`" class="Home-button">tillbaka</router-link>
+      <p>Antal meddelande: {{ numberOfMessages }}</p>
+      <p v-for="message in messages" :key="message._id">
+        {{ message.message_content }} {{ message.message_reaction }}
+      </p>
+      <!-- <p v-for="message in messages" :key="message._id">{{ message.message_reaction }}</p> -->
+    </section>
+    <section class="input-text">
+      <div class="input-section">
+        <input
+          v-model="newMessage"
+          type="text"
+          placeholder="Skriv ett meddelande"
+          class="message-input"
+        />
+        <button @click="sendMessage" class="send-button">Skicka</button>
+      </div>
+    </section>
   </main>
 </template>
 

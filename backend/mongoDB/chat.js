@@ -19,7 +19,6 @@ const chatSchema = new mongoose.Schema({
   },
   message_reaction: {
     type: String,
-    required: true,
   },
 });
 

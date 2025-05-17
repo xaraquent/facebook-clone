@@ -11,7 +11,7 @@ const dropdownPostId = ref(null);
 const now = ref(new Date());
 const route = useRoute();
 
-const userId = (localStorage.getItem('user_ID'));
+const userId = localStorage.getItem('user_ID');
 const userName = localStorage.getItem('user_name');
 const userGroup = localStorage.getItem('user_group_ID');
 
@@ -165,14 +165,14 @@ function matchUserAndGroups() {
     <header>
       <h1>Facebook-klon</h1>
       <nav class="navbar">
-    <div class="nav-left">
-      <router-link :to="`/homeview/${userId}`" class="nav-link">Inlägg</router-link>
-      <router-link :to="`/messages/${userId}`" class="nav-link">Chatt</router-link>
-    </div>
-    <div class="nav-right">
-      <router-link to="/" class="log-out-button">Logga ut</router-link>
-    </div>
-  </nav>
+        <div class="nav-left">
+          <router-link :to="`/homeview/${userId}`" class="nav-link">Inlägg</router-link>
+          <router-link :to="`/messages/${userId}`" class="nav-link">Chatt</router-link>
+        </div>
+        <div class="nav-right">
+          <router-link to="/" class="log-out-button">Logga ut</router-link>
+        </div>
+      </nav>
     </header>
 
     <aside class="groups-list">
