@@ -79,12 +79,15 @@ function updateUser(user_ID, { user_name, user_password, user_email }) {
 }
 
 //Route för att kunna logga med en redan skapad användare
+
 function loginUser(user_email, user_password) {
   return new Promise((resolve, reject) => {
     let sql = `
     SELECT * FROM Users WHERE user_email = ? AND user_password = ? `;
     connectionMySQL.query(sql, [user_email, user_password], (err, rows) => {
       if (err) {
+        console.log('Username', user_email, 'Password', user_password);
+        console.error('Error in loginUser:', err);
         reject(err);
       } else if (rows.length === 0) {
         resolve(null);
