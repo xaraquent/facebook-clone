@@ -6,10 +6,14 @@ function createPost({ post_user_id, post_content, post_reaction }) {
       INSERT INTO Posts (post_user_id, post_content, post_reaction)
       VALUES (?, ?, ?)
     `;
-    connectionMySQL.query(sql, [post_user_id, post_content, post_reaction], (err, result) => {
-      if (err) reject(err);
-      else resolve({ post_id: result.insertId, post_user_id, post_content, post_reaction });
-    });
+    connectionMySQL.query(
+      sql,
+      [parseInt(post_user_id), post_content, post_reaction],
+      (err, result) => {
+        if (err) reject(err);
+        else resolve({ post_id: result.insertId, post_user_id, post_content, post_reaction });
+      }
+    );
   });
 }
 
