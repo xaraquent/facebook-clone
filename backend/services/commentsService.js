@@ -1,22 +1,22 @@
 const connectionMySQL = require('../connectionMySQL');
 
 // Skapa kommentar
-function createComment({ comment_post_ID, comment_user_ID, comment_reaction, comment_content }) {
+function createComment({ comment_post_id, comment_user_id, comment_reaction, comment_content }) {
   return new Promise((resolve, reject) => {
     const sql = `
-      INSERT INTO Comments (comment_post_ID, comment_user_ID, comment_reaction, comment_content)
+      INSERT INTO Comments (comment_post_id, comment_user_id, comment_reaction, comment_content)
       VALUES (?, ?, ?, ?)
     `;
     connectionMySQL.query(
       sql,
-      [comment_post_ID, comment_user_ID, comment_reaction, comment_content],
+      [comment_post_id, comment_user_id, comment_reaction, comment_content],
       (err, result) => {
         if (err) reject(err);
         else
           resolve({
-            comment_ID: result.insertId,
-            comment_post_ID,
-            comment_user_ID,
+            comment_id: result.insertId,
+            comment_post_id,
+            comment_user_id,
             comment_reaction,
             comment_content,
           });
@@ -28,7 +28,7 @@ function createComment({ comment_post_ID, comment_user_ID, comment_reaction, com
 // Hämta alla kommentarer
 function getAllComments() {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM Comments ORDER BY comment_ID DESC';
+    const sql = 'SELECT * FROM Comments ORDER BY comment_id DESC';
     connectionMySQL.query(sql, (err, rows) => {
       if (err) reject(err);
       else resolve(rows);
@@ -39,7 +39,7 @@ function getAllComments() {
 // Hämta kommentarer för ett inlägg
 function getCommentsByPost(postID) {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM Comments WHERE comment_post_Id = ? ORDER BY comment_ID DESC';
+    const sql = 'SELECT * FROM Comments WHERE comment_post_Id = ? ORDER BY comment_id DESC';
     connectionMySQL.query(sql, [postID], (err, rows) => {
       if (err) reject(err);
       else resolve(rows);
@@ -48,14 +48,14 @@ function getCommentsByPost(postID) {
 }
 
 // Uppdatera/redigera kommentar
-function updateComment(comment_ID, { comment_content, comment_reaction }) {
+function updateComment(comment_id, { comment_content, comment_reaction }) {
   return new Promise((resolve, reject) => {
     const sql = `
       UPDATE Comments
       SET comment_content = ?, comment_reaction = ?
-      WHERE comment_ID = ?
+      WHERE comment_id = ?
     `;
-    connectionMySQL.query(sql, [comment_content, comment_reaction, comment_ID], (err, result) => {
+    connectionMySQL.query(sql, [comment_content, comment_reaction, comment_id], (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });
@@ -63,10 +63,10 @@ function updateComment(comment_ID, { comment_content, comment_reaction }) {
 }
 
 // Radera kommentar
-function deleteComment(comment_ID) {
+function deleteComment(comment_id) {
   return new Promise((resolve, reject) => {
-    const sql = 'DELETE FROM Comments WHERE comment_ID = ?';
-    connectionMySQL.query(sql, [comment_ID], (err, result) => {
+    const sql = 'DELETE FROM Comments WHERE comment_id = ?';
+    connectionMySQL.query(sql, [comment_id], (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });

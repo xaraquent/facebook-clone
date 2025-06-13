@@ -11,9 +11,9 @@ const dropdownPostId = ref(null);
 const now = ref(new Date());
 const route = useRoute();
 
-const userId = localStorage.getItem('user_ID');
+const userId = localStorage.getItem('user_id');
 const userName = localStorage.getItem('user_name');
-const userGroup = localStorage.getItem('user_group_ID');
+const userGroup = localStorage.getItem('user_group_id');
 
 let timer = null;
 
@@ -35,9 +35,9 @@ function fetchPosts() {
     .then((res) => res.json())
     .then((data) => {
       posts.value = (data.posts || data).map((p) => ({
-        id: p.post_ID,
-        user_id: p.post_user_ID,
-        user: p.user_name || `Användare ${p.post_user_ID}`,
+        id: p.post_id,
+        user_id: p.post_user_id,
+        user: p.user_name || `Användare ${p.post_user_id}`,
         content: p.post_content,
         date: p.post_date || new Date(),
       }));
@@ -53,7 +53,7 @@ function publishPost() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      post_user_ID: userId,
+      post_user_id: userId,
       post_content: newPost.value,
       post_reaction: 'like',
     }),
@@ -61,7 +61,7 @@ function publishPost() {
     .then((res) => res.json())
     .then((saved) => {
       posts.value.unshift({
-        id: saved.post_ID,
+        id: saved.post_id,
         user_id: userId,
         user: userName,
         content: newPost.value,
@@ -139,13 +139,13 @@ fetch('http://localhost:3000/facebook/groups')
   });
 
 const userGroups = ref([]);
-
+console.log(userId);
 fetch(`http://localhost:3000/facebook/users/${userId}`)
   .then((res) => res.json())
   .then((user) => {
-    // console.log(user.user[0]);
-    if (user.user[0].user_group_ID) {
-      const groupsIDs = user.user[0].user_group_ID.toString().split('').map(Number);
+    console.log(user);
+    if (user.user.user_group_id) {
+      const groupsIDs = user.user.user_group_id.toString().split('').map(Number);
       userGroups.value = groupsIDs;
       matchUserAndGroups();
     }
@@ -154,7 +154,7 @@ fetch(`http://localhost:3000/facebook/users/${userId}`)
 function matchUserAndGroups() {
   if (userGroups.value.length && dataGroups.value.length) {
     dataGroups.value = dataGroups.value.filter((group) =>
-      userGroups.value.includes(group.group_ID)
+      userGroups.value.includes(group.group_id)
     );
   }
 }
@@ -177,7 +177,7 @@ function matchUserAndGroups() {
 
     <aside class="groups-list">
       <ul>
-        <li v-for="group in dataGroups" :key="group.group_ID">{{ group.group_name }}</li>
+        <li v-for="group in dataGroups" :key="group.group_id">{{ group.group_name }}</li>
       </ul>
     </aside>
     <main class="feed">

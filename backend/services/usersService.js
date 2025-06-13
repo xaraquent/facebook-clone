@@ -4,7 +4,7 @@ const connectionMySQL = require('../connectionMySQL');
 function getUsers() {
   return new Promise((resolve, reject) => {
     let sql = `
-    SELECT * FROM Users ORDER BY user_ID DESC
+    SELECT * FROM Users ORDER BY user_id DESC
     `;
     connectionMySQL.query(sql, (err, rows) => {
       if (err) reject(err);
@@ -14,12 +14,12 @@ function getUsers() {
 }
 
 // Hämta ett konto
-function getUser(user_ID) {
+function getUser(user_id) {
   return new Promise((resolve, reject) => {
     let sql = `
-    SELECT * FROM Users WHERE user_ID = ?
+    SELECT * FROM Users WHERE user_id = ?
     `;
-    connectionMySQL.query(sql, [user_ID], (err, rows) => {
+    connectionMySQL.query(sql, [user_id], (err, rows) => {
       if (err) reject(err);
       else resolve(rows);
     });
@@ -39,7 +39,7 @@ function createUser({ user_name, user_password, user_email, user_created_date })
         if (err) reject(err);
         else
           resolve({
-            user_ID: result.insertId,
+            user_id: result.insertId,
             user_name,
             user_password,
             user_email,
@@ -51,12 +51,12 @@ function createUser({ user_name, user_password, user_email, user_created_date })
 }
 
 // ta bort konto
-function deleteUser(user_ID) {
+function deleteUser(user_id) {
   return new Promise((resolve, reject) => {
     let sql = `
-    DELETE FROM Users WHERE user_ID = ?
+    DELETE FROM Users WHERE user_id = ?
     `;
-    connectionMySQL.query(sql, [user_ID], (err, result) => {
+    connectionMySQL.query(sql, [user_id], (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });
@@ -64,14 +64,14 @@ function deleteUser(user_ID) {
 }
 
 // Uppdatera sit konto
-function updateUser(user_ID, { user_name, user_password, user_email }) {
+function updateUser(user_id, { user_name, user_password, user_email }) {
   return new Promise((resolve, reject) => {
     let sql = `
     UPDATE Users 
     SET user_name = ?, user_password = ?, user_email = ? 
-    WHERE user_ID = ?
+    WHERE user_id = ?
     `;
-    connectionMySQL.query(sql, [user_ID, user_name, user_password, user_email], (err, result) => {
+    connectionMySQL.query(sql, [user_id, user_name, user_password, user_email], (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });

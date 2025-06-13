@@ -21,10 +21,10 @@ function login(event) {
     .then((data) => {
       console.log(data);
       if (data.success) {
-        localStorage.setItem('user_ID', data.user_ID);
+        localStorage.setItem('user_id', data.user_id);
         localStorage.setItem('user_name', data.user_name);
-        localStorage.setItem('user_group_ID', data.user_group_ID);
-        router.push(`homeview/${data.user_ID}`);
+        localStorage.setItem('user_group_id', data.user_group_id);
+        router.push(`homeview/${data.user_id}`);
       } else {
         //Sätter message till det felmeddelande som man får från backend
         message.value = data.message;

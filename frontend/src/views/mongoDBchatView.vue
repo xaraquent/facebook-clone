@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
-const user_ID = localStorage.getItem('user_ID');
+const user_id = localStorage.getItem('user_id');
 const numberOfMessages = ref('');
 const messages = ref([]);
 const newMessage = ref(''); //Användarens textinmatining
@@ -24,7 +24,7 @@ const sendMessage = () => {
   const newMessageData = {
     chatID: 10,
     messageID: Date.now(),
-    messageUserID: Number(user_ID),
+    messageUserID: Number(user_id),
     messageContent: newMessage.value,
     messageReaction: '',
   };
@@ -51,8 +51,8 @@ const sendMessage = () => {
     <h1>Facebook-klon</h1>
     <nav class="navbar">
       <div class="nav-left">
-        <router-link :to="`/homeview/${user_ID}`" class="nav-link">Inlägg</router-link>
-        <router-link :to="`/messages/${user_ID}`" class="nav-link">Chatt</router-link>
+        <router-link :to="`/homeview/${user_id}`" class="nav-link">Inlägg</router-link>
+        <router-link :to="`/messages/${user_id}`" class="nav-link">Chatt</router-link>
       </div>
       <div class="nav-right">
         <router-link to="/" class="log-out-button">Logga ut</router-link>
@@ -61,7 +61,7 @@ const sendMessage = () => {
   </header>
   <main>
     <section class="chat-container">
-      <router-link :to="`/homeview/${user_ID}`" class="Home-button">tillbaka</router-link>
+      <router-link :to="`/homeview/${user_id}`" class="Home-button">tillbaka</router-link>
       <p>Antal meddelande: {{ numberOfMessages }}</p>
       <p v-for="message in messages" :key="message._id">
         {{ message.message_content }} {{ message.message_reaction }}

@@ -27,9 +27,9 @@ function registerNewUser(event) {
     .then((data) => {
       console.log(data);
       if (data.success) {
-        localStorage.setItem('user_ID', data.data.user_ID);
+        localStorage.setItem('user_id', data.data.user_id);
         localStorage.setItem('user_name', data.data.user_name);
-        router.push(`homeview/${data.data.user_ID}`);
+        router.push(`homeview/${data.data.user_id}`);
       } else {
         error.value = data.message;
       }
@@ -86,15 +86,15 @@ h1 {
   font-weight: bold;
 }
 
-.sign-up input[type="text"],
-.sign-up input[type="email"],
-.sign-up input[type="password"] {
+.sign-up input[type='text'],
+.sign-up input[type='email'],
+.sign-up input[type='password'] {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
 
-.sign-up input[type="submit"] {
+.sign-up input[type='submit'] {
   margin-top: 15px;
   background-color: #1877f2;
   color: white;
@@ -105,7 +105,7 @@ h1 {
   font-size: 16px;
 }
 
-.sign-up input[type="submit"]:hover {
+.sign-up input[type='submit']:hover {
   background-color: #145dd1;
 }
 

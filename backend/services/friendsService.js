@@ -15,8 +15,8 @@ function friendsAndUsers() {
     let sql = `
     SELECT Users.user_name, Friends.friend_name
     FROM Friend_list
-    INNER JOIN Users ON Friend_list.friend_user_ID = Users.user_ID
-    INNER JOIN Friends On Friend_list.friend_friend_ID = Friends.friend_ID
+    INNER JOIN Users ON Friend_list.friend_user_id = Users.user_id
+    INNER JOIN Friends On Friend_list.friend_friend_id = Friends.friend_id
     `;
     connectionMySQL.query(sql, (err, rows) => {
       if (err) reject(err);

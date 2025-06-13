@@ -14,9 +14,9 @@ exports.getUsers = async (req, res) => {
 
 // Hämta ett konton
 exports.getUser = async (req, res) => {
-  const { user_ID } = req.params;
+  const { user_id } = req.params;
   try {
-    const user = await usersService.getUser(user_ID);
+    const user = await usersService.getUser(user_id);
     res.json({ user });
   } catch (error) {
     return res.status(500).json({
@@ -79,11 +79,14 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Fel email eller lösenord' });
     }
 
+    console.log('user', user);
+
     res.status(200).json({
       success: true,
       message: 'Login successful',
-      user_ID: user.user_ID,
+      user_id: user.user_id,
       user_name: user.user_name,
+      user_group_id: user.user_group_id,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });

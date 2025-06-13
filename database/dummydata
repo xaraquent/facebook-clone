@@ -27,7 +27,7 @@ INSERT INTO Friends (friend_name, friend_created_date) VALUES
 ('Eva', NOW()),
 ('Filip', NOW());
 
-INSERT INTO Friend_list (friend_friend_ID, friend_user_ID) VALUES
+INSERT INTO Friend_list (friend_friend_id, friend_user_id) VALUES
 (1, 1),
 (2, 1),
 (2, 2),

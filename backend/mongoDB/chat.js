@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const chatSchema = new mongoose.Schema({
-  chat_ID: {
+  chat_id: {
     type: Number,
     required: true,
   },
-  message_ID: {
+  message_id: {
     type: Number,
     required: true,
   },
-  message_user_ID: {
+  message_user_id: {
     type: Number,
     required: true,
   },
