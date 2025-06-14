@@ -13,9 +13,9 @@ exports.getMessages = async (req, res) => {
 };
 
 exports.getMessage = async (req, res) => {
-  const { messageID } = req.params;
+  const { message_id } = req.params;
   try {
-    const Message = await chatController.find({ message_id: messageID });
+    const Message = await chatController.find({ message_id: message_id });
     return res.status(200).json(Message);
   } catch (error) {
     return res.status(500).json({
@@ -25,10 +25,10 @@ exports.getMessage = async (req, res) => {
 };
 
 exports.updateMessage = async (req, res) => {
-  const { messageID, content, reaction } = req.body;
+  const { message_id, content, reaction } = req.body;
   try {
     const UpdateMessage = await chatController.updateOne(
-      { message_id: messageID },
+      { message_id: message_id },
       { $set: { message_content: content } },
       { $set: { message_reaction: reaction } }
     );
@@ -41,9 +41,9 @@ exports.updateMessage = async (req, res) => {
 };
 
 exports.deleteMessage = async (req, res) => {
-  const { messageID } = req.params;
+  const { message_id } = req.params;
   try {
-    const DeleteMessage = await chatController.deleteOne({ message_id: messageID });
+    const DeleteMessage = await chatController.deleteOne({ message_id: message_id });
     return res.status(200).json(DeleteMessage);
   } catch (error) {
     return res.status(500).json({
@@ -53,9 +53,9 @@ exports.deleteMessage = async (req, res) => {
 };
 
 exports.deleteChat = async (req, res) => {
-  const { chatID } = req.params;
+  const { chat_id } = req.params;
   try {
-    const DeleteChat = await chatController.deleteOne({ chat_id: chatID });
+    const DeleteChat = await chatController.deleteOne({ chat_id: chat_id });
     return res.status(200).json(DeleteChat);
   } catch (error) {
     return res.status(500).json({
@@ -65,15 +65,23 @@ exports.deleteChat = async (req, res) => {
 };
 
 exports.createMessage = async (req, res) => {
-  const { chatID, messageID, messageContent, messageReaction, messageUserID } = req.body;
+  const {
+    chat_id,
+    message_id,
+    message_content,
+    message_reaction,
+    message_user_id,
+    message_user_name,
+  } = req.body;
   // console.log('Data lagt till POST', req.body);
   try {
     const newMessage = new chatController({
-      chat_id: chatID,
-      message_id: messageID,
-      message_content: messageContent,
-      message_user_id: messageUserID,
-      message_reaction: messageReaction,
+      chat_id: chat_id,
+      message_id: message_id,
+      message_content: message_content,
+      message_user_id: message_user_id,
+      message_user_name: message_user_name,
+      message_reaction: message_reaction,
     });
     const insertedMessage = await newMessage.save();
     return res.status(201).json(insertedMessage);

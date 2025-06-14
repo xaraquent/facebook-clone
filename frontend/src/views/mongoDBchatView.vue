@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 const user_id = localStorage.getItem('user_id');
+const user_name = localStorage.getItem('user_name');
 const numberOfMessages = ref('');
 const messages = ref([]);
 const newMessage = ref(''); //Användarens textinmatining
@@ -22,13 +23,13 @@ const sendMessage = () => {
   if (!newMessage.value.trim()) return;
 
   const newMessageData = {
-    chatID: 10,
-    messageID: Date.now(),
-    messageUserID: Number(user_id),
-    messageContent: newMessage.value,
-    messageReaction: '',
+    chat_id: 10,
+    message_id: Date.now(),
+    message_user_id: Number(user_id),
+    message_user_name: user_name,
+    message_content: newMessage.value,
+    message_reaction: '',
   };
-
   fetch('http://localhost:3000/facebook/messages', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -63,11 +64,17 @@ const sendMessage = () => {
     <section class="chat-container">
       <router-link :to="`/homeview/${user_id}`" class="Home-button">tillbaka</router-link>
       <p>Antal meddelande: {{ numberOfMessages }}</p>
+
+      <!-- Meddelande logg -->
       <p v-for="message in messages" :key="message._id">
-        {{ message.message_content }} {{ message.message_reaction }}
+        <Strong class="chat-username">{{ message.message_user_name }}</Strong>
+        {{ message.message_content }}
+        {{ message.message_reaction }}
       </p>
       <!-- <p v-for="message in messages" :key="message._id">{{ message.message_reaction }}</p> -->
     </section>
+
+    <!-- Skapa nytt meddelande -->
     <section class="input-text">
       <div class="input-section">
         <input
@@ -198,5 +205,9 @@ main {
 
 .send-button:hover {
   background-color: #0056b3;
+}
+
+.chat-username {
+  color: #1877f2;
 }
 </style>
