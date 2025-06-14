@@ -66,8 +66,20 @@ const sendMessage = () => {
       <p>Antal meddelande: {{ numberOfMessages }}</p>
 
       <!-- Meddelande logg -->
-      <p v-for="message in messages" :key="message._id">
-        <Strong class="chat-username">{{ message.message_user_name }}</Strong>
+      <p
+        v-for="message in messages"
+        :key="message._id"
+        class="chat-box"
+        v-if="message_user_id === parseInt(user_id)"
+      ></p>
+
+      <p
+        v-for="message in messages"
+        :key="message._id"
+        class="chat-box"
+        :class="{ 'my-message': message.message_user_id === parseInt(user_id) }"
+      >
+        <strong class="chat-username">{{ message.message_user_name }}</strong>
         {{ message.message_content }}
         {{ message.message_reaction }}
       </p>
@@ -161,8 +173,8 @@ main {
 }
 
 /* Varje meddelande */
-.chat-container p:not(:first-of-type) {
-  background-color: #f0f2f5;
+.chat-box {
+  background-color: #b8b8b8;
   padding: 10px;
   border-radius: 6px;
   margin-bottom: 10px;
@@ -171,6 +183,19 @@ main {
   color: #333;
   word-wrap: break-word;
 }
+
+.my-message {
+  background-color: #298efa;
+}
+
+.chat-username {
+  color: #ff00ff;
+  font-size: 1.3em;
+  font-style: italic;
+  font-weight: 900;
+  padding-right: 1em;
+}
+
 .input-section {
   display: flex;
   justify-content: space-between;
@@ -205,9 +230,5 @@ main {
 
 .send-button:hover {
   background-color: #0056b3;
-}
-
-.chat-username {
-  color: #1877f2;
 }
 </style>
